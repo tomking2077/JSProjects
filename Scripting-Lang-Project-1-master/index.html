@@ -1,0 +1,94 @@
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/body-styles.css">
+  <link rel="stylesheet" href="css/table-styles.css">
+
+  <!-- JavaScript -->
+  <script src="javascript/DynamicColorTable.js"></script>
+  <script src="javascript/PredrawnPictures.js"></script>
+  <script src="javascript/scripts.js"></script>
+  <script>
+    var globalObject = {};
+
+    function loadValues() {
+      let dynamicElements = {
+        table: document.getElementById('dynamicTable'),
+        redColorPicker: document.getElementById('redColorPicker'),
+        greenColorPicker: document.getElementById('greenColorPicker'),
+        blueColorPicker: document.getElementById('blueColorPicker'),
+        errorBox: document.getElementById('errorTextBox')
+      };  
+
+      let dynamicTable = new DynamicColorTable(dynamicElements, document);
+
+      globalObject.dynamicTable = dynamicTable;
+      globalObject.predrawnPictures = new PredrawnPictures(dynamicTable);
+      globalObject.rowLengthInputElement = document.getElementById('rowCount');
+      globalObject.columnLengthInputElement = document.getElementById('columnCount');
+      globalObject.dynamicTable.createTable(globalObject.rowLengthInputElement.value, globalObject.columnLengthInputElement.value);
+    }
+  </script>
+
+</head>
+
+<body onload="loadValues();">
+  <div class="w3-black w3-padding-small" style="white-space:nowrap;">
+    <span class="w3-center w3-padding-small w3-black w3-xlarge w3-wide w3-animate-opacity">CSCE 489 <span class="w3-hide-small">PROJECT</span>
+      ONE</span>
+  </div>
+
+  <br>
+  <select id="colorPicker" onchange="changeVal(document);">
+    <option value="black">Black</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+    <option value="green">Green</option>
+    <option value="maroon">Maroon</option>
+    <option value="white">White</option>
+  </select>
+
+  <label>&nbsp Rows</label>
+  <input type="number" id="rowCount" value="10">
+
+  <label> &nbsp Columns</label>
+  <input type="number" id="columnCount" value="10">
+
+  <input type="text" id="errorTextBox" value="Enter Numbers[1-500]" > </input>
+
+  <form>
+    <fieldset id="colorPicker">
+      <legend>Custom Color Picker</legend>
+      <input type="number" id="redColorPicker" value="0"> Red <br>
+      <input type="number" id="greenColorPicker" value="0"> Green <br>
+      <input type="number" id="blueColorPicker" value="0"> Blue
+    </fieldset>
+  </form>
+
+  <button onclick="globalObject.dynamicTable.createTable(globalObject.rowLengthInputElement.value, globalObject.columnLengthInputElement.value);">Create
+    Table</button>
+  <button onclick="globalObject.dynamicTable.clearTableColors();">Clear Table</button>
+  <br>
+  <br>
+
+  <button onclick="globalObject.predrawnPictures.drawFlower();">Example #1: Flower</button>
+  <button onclick="globalObject.predrawnPictures.drawTAMU();">Example #2: TAMU Logo</button>
+  <button onclick="globalObject.predrawnPictures.drawSword();">Example #3: SWORD!!</button>
+
+  <div class="w3-padding-small">
+    <table id="dynamicTable" class="dynamic-table" border="1" align="left"></table>
+  </div>
+  
+</body>
+
+
+
+</html>

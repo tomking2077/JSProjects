@@ -1,0 +1,43 @@
+body {
+    background: #424241;
+    padding-top: 0;
+    margin-top: 0;
+    color: white;
+}
+
+/* Page Content */
+
+.content {
+    padding: 1em;
+    margin: .5em;
+}
+
+.sidebar {
+    width: 25%;
+    margin-top: 0%;
+    background: #9b9b99;
+}
+
+/* Table */
+
+.dynamic-table table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+.dynamic-table td {
+    border: 1px solid #dddddd;
+    background-color: white;
+    width: 20px;
+    height: 20px;
+}
+
+.dynamic-table th {
+    border: none;
+    text-align: center;
+    background-color: #424241;
+    width: 14px;
+    height: 14px;
+    color: white;
+    padding: 3px;
+}

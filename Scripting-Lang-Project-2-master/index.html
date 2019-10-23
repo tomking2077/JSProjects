@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="js/codebox.js"></script>
+    <script src="js/DynamicTable.js"></script>
+    <script src="js/ShortCommand.js"></script>
+    <script src="js/scripts.js"></script>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" type="text/css">
+    <link rel='stylesheet' href="css/styles.css" type="text/css">
+    <link rel="stylesheet" href="css/codebox.css" type="text/css">
+    <link rel="stylesheet" href="css/toolbar.css" type="text/css">
+    <link rel="stylesheet" href="css/navbar.css" type="text/css">
+
+    <!-- Prism Library -->
+    <script src="prism/prism.js"></script>
+    <link rel="stylesheet" href="prism/prism.css">
+
+    <!-- CodeMirror Library -->
+    <script src="codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+
+    <!-- Themes -->
+    <link rel="stylesheet" href="codemirror/theme/3024-day.css">
+    <link rel="stylesheet" href="codemirror/theme/3024-night.css">
+    <link rel="stylesheet" href="codemirror/theme/abcdef.css">
+    <link rel="stylesheet" href="codemirror/theme/ambiance.css">
+    <link rel="stylesheet" href="codemirror/theme/base16-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/bespin.css">
+    <link rel="stylesheet" href="codemirror/theme/base16-light.css">
+    <link rel="stylesheet" href="codemirror/theme/blackboard.css">
+    <link rel="stylesheet" href="codemirror/theme/cobalt.css">
+    <link rel="stylesheet" href="codemirror/theme/colorforth.css">
+    <link rel="stylesheet" href="codemirror/theme/dracula.css">
+    <link rel="stylesheet" href="codemirror/theme/duotone-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/duotone-light.css">
+    <link rel="stylesheet" href="codemirror/theme/eclipse.css">
+    <link rel="stylesheet" href="codemirror/theme/elegant.css">
+    <link rel="stylesheet" href="codemirror/theme/erlang-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/gruvbox-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/hopscotch.css">
+    <link rel="stylesheet" href="codemirror/theme/icecoder.css">
+    <link rel="stylesheet" href="codemirror/theme/isotope.css">
+    <link rel="stylesheet" href="codemirror/theme/lesser-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/liquibyte.css">
+    <link rel="stylesheet" href="codemirror/theme/lucario.css">
+    <link rel="stylesheet" href="codemirror/theme/material.css">
+    <link rel="stylesheet" href="codemirror/theme/mbo.css">
+    <link rel="stylesheet" href="codemirror/theme/mdn-like.css">
+    <link rel="stylesheet" href="codemirror/theme/midnight.css">
+    <link rel="stylesheet" href="codemirror/theme/monokai.css">
+    <link rel="stylesheet" href="codemirror/theme/neat.css">
+    <link rel="stylesheet" href="codemirror/theme/neo.css">
+    <link rel="stylesheet" href="codemirror/theme/night.css">
+    <link rel="stylesheet" href="codemirror/theme/oceanic-next.css">
+    <link rel="stylesheet" href="codemirror/theme/panda-syntax.css">
+    <link rel="stylesheet" href="codemirror/theme/paraiso-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/paraiso-light.css">
+    <link rel="stylesheet" href="codemirror/theme/pastel-on-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/railscasts.css">
+    <link rel="stylesheet" href="codemirror/theme/rubyblue.css">
+    <link rel="stylesheet" href="codemirror/theme/seti.css">
+    <link rel="stylesheet" href="codemirror/theme/shadowfox.css">
+    <link rel="stylesheet" href="codemirror/theme/solarized.css">
+    <link rel="stylesheet" href="codemirror/theme/the-matrix.css">
+    <link rel="stylesheet" href="codemirror/theme/tomorrow-night-bright.css">
+    <link rel="stylesheet" href="codemirror/theme/tomorrow-night-eighties.css">
+    <link rel="stylesheet" href="codemirror/theme/ttcn.css">
+    <link rel="stylesheet" href="codemirror/theme/twilight.css">
+    <link rel="stylesheet" href="codemirror/theme/vibrant-ink.css">
+    <link rel="stylesheet" href="codemirror/theme/xq-dark.css">
+    <link rel="stylesheet" href="codemirror/theme/xq-light.css">
+    <link rel="stylesheet" href="codemirror/theme/yeti.css">
+    <link rel="stylesheet" href="codemirror/theme/idea.css">
+    <link rel="stylesheet" href="codemirror/theme/darcula.css">
+    <link rel="stylesheet" href="codemirror/theme/zenburn.css">
+
+    <script src="codemirror/addon/edit/closebrackets.js"></script>
+    <script src="codemirror/addon/selection/active-line.js"></script>
+    <script src="codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="codemirror/addon/comment/comment.js"></script>
+    <script src="codemirror/addon/fold/foldcode.js"></script>
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+
+    <script>
+        var shortCommand;
+        var globalObject = {};
+
+        $(document).ready(() => {
+            remapConsole();
+            reloadCodeFromCookie();
+
+            let table = createTable();
+
+            // Creating the Code element
+            let codeElement = CodeMirror.fromTextArea(
+                document.getElementById('code-element'), 
+                {
+                    mode:  "javascript",
+                    theme: (Cookies.get('theme') || 'darcula'),
+
+                    // Addons
+                    lineNumbers: true,
+                    styleActiveLine: true,
+                    autoCloseBrackets: true,
+                    foldCode: true
+
+                }
+            );
+            
+            $('#theme-select').val(codeElement.getOption('theme'));
+
+            // A safer way to create a global variable
+            globalObject.codeElement = codeElement;
+            
+            // This creates the ShortCommand Object 
+            // that is used by the Code that is executed. 
+            shortCommand = new ShortCommand({
+                consoleElement: $('#console-element'),
+                dynamicTable: table
+            });
+
+            addButtonListeners();
+            addKeyboardListeners();
+            
+            //Use debug functions here to trigger the appropriate flags
+            //debugAll();
+
+            // Makes sure active code is saved to cookie.
+            $(window).on("beforeunload", () => {
+                storeCodeToCookie();
+                return;
+            });            
+        });
+
+        function storeCodeToCookie() {
+            Cookies.set('code', globalObject.codeElement.getValue());
+        }
+
+        function killCode() {
+            storeCodeToCookie();
+            location.reload();
+            reloadCodeFromCookie();
+        }
+
+        function reloadCodeFromCookie() {
+            let codeToReload = Cookies.get('code');
+            $('#code-element').text(codeToReload);
+        }
+
+        function selectTheme(selectElement) {
+            let themeString = selectElement.value;
+            globalObject.codeElement.setOption('theme', themeString)
+            Cookies.set('theme', themeString);
+        }
+
+        document.querySelector('.readBytesButtons').addEventListener('click', function(evt) {
+            if (evt.target.tagName.toLowerCase() == 'button') {
+            var startByte = evt.target.getAttribute('data-startbyte');
+            var endByte = evt.target.getAttribute('data-endbyte');
+            readBlob(startByte, endByte);
+            }
+        }, false);
+
+    </script>
+
+    <title>Keno IDE</title>
+</head>
+
+<body>
+    <input type="file" id="files" name="file" style="display:none" />
+    <div class="navbar">
+        <ul>
+            <li class="left-button"><button class="w3-bar-item w3-button">Keno IDE</button></li>
+            <li class="right-button"><button class="w3-bar-item w3-button" onclick="saveCode()">Save as File</button></li>
+            <li class="right-button"><button class="w3-bar-item w3-button" onclick="loadCode()">Load File</button></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <figure>
+            <div class="toolbar">
+                <ul>
+                    <li class="left-button">
+                        <h4>Keno Simulator</h4>
+                    </li>
+                    <li class="right-button">
+                        <button id="clear-button" class="w3-button">
+                            <img width="20px" src="images/trash.png">
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <!-- Table Space-->
+            <center>
+                <div id='tableSpace' class="dynamic-table">
+
+                </div>
+            </center>
+            <br>
+            <div class="toolbar">
+                <ul>
+                    <li class="left-button">
+                        <h4>Editor</h4>
+                    </li>
+                    <li class="right-button">
+                        <button id="run-button" class="w3-button">
+                            <img width="25px" src="images/play.gif">
+                        </button>
+                    </li>
+                    <li class="right-button">
+                        <button id="stop-button" class="w3-button">
+                            <img width="20px" src="images/stop.svg">
+                        </button>
+                    </li>
+                    <li class="right-button">
+                        <p>
+                            Editor Theme: <select onchange="selectTheme(this);" id="theme-select">
+                                <option>default</option>
+                                <option>3024-day</option>
+                                <option>3024-night</option>
+                                <option>abcdef</option>
+                                <option>ambiance</option>
+                                <option>base16-dark</option>
+                                <option>base16-light</option>
+                                <option>bespin</option>
+                                <option>blackboard</option>
+                                <option>cobalt</option>
+                                <option>colorforth</option>
+                                <option selected>darcula</option>
+                                <option>dracula</option>
+                                <option>duotone-dark</option>
+                                <option>duotone-light</option>
+                                <option>eclipse</option>
+                                <option>elegant</option>
+                                <option>erlang-dark</option>
+                                <option>gruvbox-dark</option>
+                                <option>hopscotch</option>
+                                <option>icecoder</option>
+                                <option>idea</option>
+                                <option>isotope</option>
+                                <option>lesser-dark</option>
+                                <option>liquibyte</option>
+                                <option>lucario</option>
+                                <option>material</option>
+                                <option>mbo</option>
+                                <option>mdn-like</option>
+                                <option>midnight</option>
+                                <option>monokai</option>
+                                <option>neat</option>
+                                <option>neo</option>
+                                <option>night</option>
+                                <option>oceanic-next</option>
+                                <option>panda-syntax</option>
+                                <option>paraiso-dark</option>
+                                <option>paraiso-light</option>
+                                <option>pastel-on-dark</option>
+                                <option>railscasts</option>
+                                <option>rubyblue</option>
+                                <option>seti</option>
+                                <option>shadowfox</option>
+                                <option>solarized dark</option>
+                                <option>solarized light</option>
+                                <option>the-matrix</option>
+                                <option>tomorrow-night-bright</option>
+                                <option>tomorrow-night-eighties</option>
+                                <option>ttcn</option>
+                                <option>twilight</option>
+                                <option>vibrant-ink</option>
+                                <option>xq-dark</option>
+                                <option>xq-light</option>
+                                <option>yeti</option>
+                                <option>zenburn</option>
+                            </select>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <textarea id="code-element" contenteditable="true" spellcheck="false">
+for (let i = 1; i <= 10; i++) {
+    keno.setColor(i, i, 'maroon');
+    keno.wait(500);
+}
+keno.clear(1, 1);
+</textarea>
+        </figure>
+
+        <!-- Output Terminal -->
+        <figure>
+            <div class="toolbar">
+                <ul>
+                    <li class="left-button ">
+                        <h4>Console Output</h4>
+                    </li>
+                    <li class="right-button">
+                        <button id="clear-console-button" class="w3-button">
+                            <img width="22px" src="images/trash.png">
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <pre class="codebox">
+                <code id="console-element" class="language-"></code>
+            </pre>
+        </figure>
+
+    </div>
+</body>
+
+</html>

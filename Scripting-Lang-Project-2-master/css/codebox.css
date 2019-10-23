@@ -1,0 +1,27 @@
+.codebox pre,
+code {
+    font-family: monospace, monospace;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+}
+
+.codebox pre {
+    overflow: auto;
+    white-space: pre-wrap;
+    background: #272822;
+}
+
+.codebox pre>code {
+    display: block;
+    word-wrap: normal;
+}
+
+.codebox code[contenteditable="true"]:focus {
+    outline: none;
+}
+
+.code-editor {
+    width: 100%;
+    padding: 5px;
+}

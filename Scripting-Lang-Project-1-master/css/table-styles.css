@@ -1,0 +1,16 @@
+/* @group DynamicColorTable Classes */
+.dynamic-table table {
+    border-color: black;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    margin: auto;
+    border-color: transparent;
+}
+
+.dynamic-table td {
+    color: transparent;
+    width: 20px;
+    height: 20px;
+}
+
+/* @end  DynamicColorTable Classes */

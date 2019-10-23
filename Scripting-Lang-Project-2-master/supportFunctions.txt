@@ -1,0 +1,12 @@
+New API
+
+Move
+Steps(change color) + Loop
+Default shapes support (circle, rectangle, sqaure, polygon, triangle, semicircle)
+Text stroke
+Rotate
+Function support
+Random support
+when support( app starts, user clicks etc)
+Every frame/second/millisecond
+Visual way to choose graphics(shapes, rotation etc)
